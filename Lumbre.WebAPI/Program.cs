@@ -7,11 +7,6 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
 });
 
-builder.Services.AddLumbre(opt =>
-{
-    opt.ConnectionString = builder.Configuration.GetValue<string>("Lumbre:ConnectionString");
-});
-
 var app = builder.Build();
 
 var sampleTodos = new Todo[] {

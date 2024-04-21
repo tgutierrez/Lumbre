@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using static Lumbre.Interfaces.Common.Primitives;
 
-namespace Lumbre.Interfaces
+namespace Lumbre.Interfaces.Repository
 {
     public interface IRepository
     {
-        void Upsert(CollectionName collection, ResourceId resourceId, JsonPayload payload);
-        JsonPayload ReadById(CollectionName collection, ResourceId resourceId);
+        Task Upsert(CollectionName collection, ResourceId resourceId, JsonPayload payload);
+        Task<IRepositoryResult> ReadById(CollectionName collectionName, ResourceId resourceId);
     }
 }

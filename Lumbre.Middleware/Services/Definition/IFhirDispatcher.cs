@@ -10,6 +10,6 @@ namespace Lumbre.Middleware.Services.Definition
 {
     public interface IFhirDispatcher
     {
-        Task<IOperationResponse> Perform<T>(IFHIRRequest request) where T : IIdentifiable<List<Identifier>>, new();
+        Task<IResponse<K>> Perform<T, K>(IFHIRRequest request) where T : IIdentifiable<List<Identifier>>, new() where K : IExpectedResponseType;
     }
 }

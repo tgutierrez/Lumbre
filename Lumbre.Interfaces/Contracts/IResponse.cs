@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Lumbre.Interfaces.Contracts
 {
-   public interface IOperationResponse
+   public interface IResponse<T> where T : IExpectedResponseType
     {
+        T Response { get; }
+
         bool IsSuccess { get; }
 
         string Message { get; } 
