@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumbre.Interfaces.Contracts
+namespace Lumbre.Middleware.Services.Definition
 {
-    public interface IExpectedResponseType
+    public class IRequestBuilder
     {
-        public string Name();
+
     }
 }

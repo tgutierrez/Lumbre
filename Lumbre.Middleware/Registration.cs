@@ -15,6 +15,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Lumbre.Middleware.Behaviors;
+using Lumbre.Middleware.Services.Concrete.ResponseShaping;
 
 namespace Lumbre
 {
@@ -31,66 +33,15 @@ namespace Lumbre
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblyContaining<Marker>();
+                RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => services.AddScoped(t, k), typeof(IRequestHandler<,>), typeof(QueryByIdRequest<,>), typeof(QueryByIdHandler<,>));
+                RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => services.AddScoped(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(ValidateId<,>));
+                RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => services.AddScoped(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(GetFromRepo<,>));
+                RegistrationUtilities.ResourceForResultIterator((t, k) => services.AddScoped(t, k), typeof(ObjectResponse<>),typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(Deserialize<>));
+                RegistrationUtilities.RequestToResponseService((t, k) => services.AddScoped(t, k), typeof(ObjectResponse<>), typeof(IShapeResponse<,>), typeof(QueryByIdRequest<,>), typeof(SingleObjectResponse<>));
             });
 
+            
 
-            //services.AddTransient<IRequestHandler<,>
-            //services.AddTransient<IRequestHandler<,>, QueryByIdHandler<,>>();
-            //services.AddTransient<IRequestHandler<QueryByIdRequest<Patient, ObjectResponse<Patient>>, IResponse<ObjectResponse<Patient>>>, QueryByIdHandler<Patient, ObjectResponse<Patient>>>();
-            //services.AddTransient(typeof(IRequestHandler<,>)
-            //                        .MakeGenericType([
-            //                            typeof(QueryByIdRequest<,>)
-            //                                .MakeGenericType(new Type[]
-            //                                {
-            //                                     typeof(IIdentifiable<List<Identifier>>),
-            //                                     typeof(IExpectedResponseType)
-            //                                }),
-            //                            typeof(IResponse<>)
-            //                                .MakeGenericType(new Type[]{
-            //                                    typeof(IExpectedResponseType)
-            //                                })
-            //                            ,
-            //                        ])
-            //                       , typeof(QueryByIdHandler<,>)
-            //                            .MakeGenericType(new Type[]
-            //                                {
-            //                                     typeof(IIdentifiable<List<Identifier>>),
-            //                                     typeof(IExpectedResponseType)
-            //                                })
-            //                       );
-            //services.AddTransient(typeof(IRequestHandler<,>)
-            //                        .MakeGenericType([
-            //                            typeof(QueryByIdRequest<,>)
-            //                                .MakeGenericType(new Type[]
-            //                                {
-            //                                     typeof(Patient),
-            //                                     typeof(ObjectResponse<>)
-            //                                        .MakeGenericType(new []{
-            //                                            typeof(Patient)
-            //                                        })
-            //                                }),
-            //                            typeof(IResponse<>)
-            //                                .MakeGenericType(new Type[]{
-            //                                    typeof(ObjectResponse<>)
-            //                                        .MakeGenericType(new []{
-            //                                            typeof(Patient)
-            //                                        })
-            //                                })
-            //                            ,
-            //                        ])
-            //                       , typeof(QueryByIdHandler<,>)
-            //                            .MakeGenericType(new Type[]
-            //                                {
-            //                                     typeof(Patient),
-            //                                     typeof(ObjectResponse<>)
-            //                                        .MakeGenericType(new []{
-            //                                            typeof(Patient)
-            //                                        })
-            //                                })
-            //                       );
-            services.RegisterHandlesFor(typeof(QueryByIdRequest<,>), typeof(QueryByIdHandler<,>));
-
-            //services.RegisterHandlesFor<QueryByIdRequest<,>, QueryByIdRequest<,>);
 
             services.AddScoped<IFhirDispatcher, FhirDispatcher>();
 

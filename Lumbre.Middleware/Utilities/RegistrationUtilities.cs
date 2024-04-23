@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Hl7.Fhir.Model.MessageHeader;
 
 namespace Lumbre.Middleware.Utilities
 {
@@ -23,13 +24,20 @@ namespace Lumbre.Middleware.Utilities
         /// <param name="handler"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        internal static IServiceCollection RegisterHandlesFor(this IServiceCollection services, Type mrequest, Type handler)
-                                        
+        internal static IServiceCollection RegisterHandlesFor(this IServiceCollection services, Type parameter, Type service, Type implementation)
+
         {
             // sanity checks
-            if (!mrequest.IsGenericType) throw new InvalidOperationException($"{mrequest} is not a generic type");
-            if (!handler.IsGenericType) throw new InvalidOperationException($"{handler} is not a generic type");
+            if (!service.IsGenericType) throw new InvalidOperationException($"{service} is not a generic type");
+            if (!implementation.IsGenericType) throw new InvalidOperationException($"{implementation} is not a generic type");
 
+            ResourceAndAllResultTypesIterator((t, k) => services.AddTransient(t, k), parameter, service, implementation);
+
+            return services;
+        }
+
+        internal static void ResourceAndAllResultTypesIterator(Action<Type, Type> register, Type pservice, Type prequest, Type pimplementation)
+        {
             Limits
                 .GetSupportedDocumentTypes()
                 .ToList()
@@ -37,52 +45,61 @@ namespace Lumbre.Middleware.Utilities
                 {
                     Limits
                         .GetSupportedReturnTypes()
-                        .Where(k => k.IsGenericType)
                         .ToList()
                         .ForEach(k =>
                         {
-                            var responseType = k.MakeGenericType(t);
-                            var request = mrequest.MakeGenericType(t, responseType);
-                            var iresponse = typeof(IResponse<>).MakeGenericType(responseType);
-                            var irequesthandler = typeof(IRequestHandler<,>).MakeGenericType(request, iresponse);
-                            var concreteHandler = handler.MakeGenericType(t, responseType);
-
-                            services.AddTransient(irequesthandler, concreteHandler);
+                            var responseType = k.IsGenericType ? k.MakeGenericType(t) : k;
+                            (Type irequesthandler, Type concreteHandler) = BuildTypes(pservice, prequest, pimplementation, t, responseType);
+                            register(irequesthandler, concreteHandler);
                         });
                 });
-
-            //services.AddTransient(typeof(IRequestHandler<,>)
-            //              .MakeGenericType([
-            //                  typeof(QueryByIdRequest<,>)
-            //                                .MakeGenericType(new Type[]
-            //                                {
-            //                                     typeof(Patient),
-            //                                     typeof(ObjectResponse<>)
-            //                                        .MakeGenericType(new []{
-            //                                            typeof(Patient)
-            //                                        })
-            //                                }),
-            //                            typeof(IResponse<>)
-            //                                .MakeGenericType(new Type[]{
-            //                                    typeof(ObjectResponse<>)
-            //                                        .MakeGenericType(new []{
-            //                                            typeof(Patient)
-            //                                        })
-            //                                })
-            //                            ,
-            //              ])
-            //             , typeof(QueryByIdHandler<,>)
-            //                  .MakeGenericType(new Type[]
-            //                      {
-            //                                     typeof(Patient),
-            //                                     typeof(ObjectResponse<>)
-            //                                        .MakeGenericType(new []{
-            //                                            typeof(Patient)
-            //                                        })
-            //                      })
-            //             );
-
-            return services;
         }
+
+
+
+        internal static void ResourceForResultIterator(Action<Type, Type> register, Type presponseType, Type pservice, Type prequest, Type pimplementation)
+        {
+            Limits
+                .GetSupportedDocumentTypes()
+                .ToList()
+                .ForEach(t =>
+                {
+                    var responseType = presponseType.MakeGenericType(t);
+                    var request = prequest.MakeGenericType(t, responseType);
+                    var iresponse = typeof(IResponse<>).MakeGenericType(responseType);
+                    var irequesthandler = pservice.MakeGenericType(request, iresponse);
+                    var concreteHandler = pimplementation.MakeGenericType(t);
+
+                    register(irequesthandler, concreteHandler);
+                });
+        }
+
+        internal static void RequestToResponseService(Action<Type, Type> register, Type presponseType, Type pservice, Type prequest, Type pimplementation)
+        {
+            Limits
+                .GetSupportedDocumentTypes()
+                .ToList()
+                .ForEach(t =>
+                {
+                    var responseType = presponseType.MakeGenericType(t);
+                    var request = prequest.MakeGenericType(t, responseType);
+                    var iresponse = typeof(IResponse<>).MakeGenericType(responseType);
+                    var irequesthandler = pservice.MakeGenericType(t, responseType);
+                    var concreteHandler = pimplementation.MakeGenericType(t);
+
+                    register(irequesthandler, concreteHandler);
+                });
+        }
+
+        private static (Type, Type) BuildTypes(Type pservice, Type prequest, Type pimplementation, Type domainType, Type responseType)
+        {
+            var request = prequest.MakeGenericType(domainType, responseType);
+            var iresponse = typeof(IResponse<>).MakeGenericType(responseType);
+            var irequesthandler = pservice.MakeGenericType(request, iresponse);
+            var concreteHandler = pimplementation.MakeGenericType(domainType, responseType);
+            return (irequesthandler, concreteHandler);
+        }
+
+
     }
 }

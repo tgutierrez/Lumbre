@@ -36,7 +36,7 @@ namespace Lumbre.Persistance.Mongodb.Implementation
                                 .GetCollection<BsonDocument>(collectionName);
 
 
-            var filter = Builders<BsonDocument>.Filter.Eq(EntityId, resourceId);
+            var filter = Builders<BsonDocument>.Filter.Eq(EntityId, resourceId.Id);
             var projection = Builders<BsonDocument>.Projection.Exclude(MongoDBId); // avoids introducing extrenous elements on the resulting payload
 
             var cursor = await collection

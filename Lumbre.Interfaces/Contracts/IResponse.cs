@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lumbre.Interfaces.Contracts
 {
-   public interface IResponse<T> where T : IExpectedResponseType
+   public interface IResponse<out T> where T : IExpectedResponseType
     {
-        T Response { get; }
+        T? Response { get; }
 
         bool IsSuccess { get; }
 

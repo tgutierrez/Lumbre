@@ -8,9 +8,9 @@ using static Lumbre.Interfaces.Common.Primitives;
 
 namespace Lumbre.Middleware.Requests
 {
-    internal interface IMutableCommand
+    internal interface IMutableCommand<T> where T : IIdentifiable<List<Identifier>>, new ()
     {
         JsonPayload? JsonPayload { get; set; } 
-        DomainResource? RequestResource { get; set; }
+        T? RequestResource { get; set; }
     }
 }

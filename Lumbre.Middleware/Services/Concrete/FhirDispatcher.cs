@@ -15,7 +15,6 @@ namespace Lumbre.Middleware.Services.Concrete
             this._mediator = mediator;
         }
 
-
         public Task<IResponse<K>> Perform<T, K>(IFHIRRequest request)
             where T : IIdentifiable<List<Identifier>>, new()
             where K : IExpectedResponseType
@@ -24,5 +23,6 @@ namespace Lumbre.Middleware.Services.Concrete
                  QueryById<T> => new QueryByIdRequest<T,K>(request as QueryById<T>),
                  _ => throw new NotImplementedException()
              });
+
     }
 }
