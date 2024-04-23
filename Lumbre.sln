@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1E193BA2-66B2-4F6E-8725-FAC70089093F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POC", "POC", "{50338D00-3296-4CC5-8F3B-8799A32CB739}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{32FB993E-EFD0-436F-BA95-0661FE78ECB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Middleware", "Middleware", "{585D823E-2C43-4F59-B128-58CBEDD10BD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lumbre.Middleware", "Lumbre.Middleware\Lumbre.Middleware.csproj", "{14F6BBAD-A9D6-4E39-9EDC-45D7D6B9E6D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{E0113B1A-43B1-4099-A3F9-1D9DA4BCCDEC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lumbre.Interfaces", "Lumbre.Interfaces\Lumbre.Interfaces.csproj", "{4618630D-232F-465E-9923-5C0498C807A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistance", "Persistance", "{77F03320-FCA2-4FCC-B65C-65AF50B8406F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lumbre.Persistance.Mongodb", "Lumbre.Persistance.Mongodb\Lumbre.Persistance.Mongodb.csproj", "{7B891277-B67B-4444-BB17-B40D20B014DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{9FE66196-079F-4750-B922-B9A7BBE4E8AC}"
+	ProjectSection(SolutionItems) = preProject
+		mongo-init\init.js = mongo-init\init.js
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medtr", "..\POC\Medtr\Medtr.csproj", "{ECD1C12E-034F-4398-84E2-56DADEAE6D99}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC", "..\POC\POC\POC.csproj", "{C711D66C-3930-4108-AF79-2B23DD04A047}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lumbre.WebAPI", "Lumbre.WebAPI\Lumbre.WebAPI.csproj", "{D6FF6214-8846-4774-A3E8-F69F9B33BD6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E193BA2-66B2-4F6E-8725-FAC70089093F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E193BA2-66B2-4F6E-8725-FAC70089093F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E193BA2-66B2-4F6E-8725-FAC70089093F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E193BA2-66B2-4F6E-8725-FAC70089093F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F6BBAD-A9D6-4E39-9EDC-45D7D6B9E6D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F6BBAD-A9D6-4E39-9EDC-45D7D6B9E6D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F6BBAD-A9D6-4E39-9EDC-45D7D6B9E6D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F6BBAD-A9D6-4E39-9EDC-45D7D6B9E6D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4618630D-232F-465E-9923-5C0498C807A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4618630D-232F-465E-9923-5C0498C807A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4618630D-232F-465E-9923-5C0498C807A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4618630D-232F-465E-9923-5C0498C807A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B891277-B67B-4444-BB17-B40D20B014DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B891277-B67B-4444-BB17-B40D20B014DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B891277-B67B-4444-BB17-B40D20B014DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B891277-B67B-4444-BB17-B40D20B014DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD1C12E-034F-4398-84E2-56DADEAE6D99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD1C12E-034F-4398-84E2-56DADEAE6D99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD1C12E-034F-4398-84E2-56DADEAE6D99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD1C12E-034F-4398-84E2-56DADEAE6D99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C711D66C-3930-4108-AF79-2B23DD04A047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C711D66C-3930-4108-AF79-2B23DD04A047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C711D66C-3930-4108-AF79-2B23DD04A047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C711D66C-3930-4108-AF79-2B23DD04A047}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6FF6214-8846-4774-A3E8-F69F9B33BD6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6FF6214-8846-4774-A3E8-F69F9B33BD6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6FF6214-8846-4774-A3E8-F69F9B33BD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6FF6214-8846-4774-A3E8-F69F9B33BD6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14F6BBAD-A9D6-4E39-9EDC-45D7D6B9E6D6} = {585D823E-2C43-4F59-B128-58CBEDD10BD5}
+		{4618630D-232F-465E-9923-5C0498C807A6} = {E0113B1A-43B1-4099-A3F9-1D9DA4BCCDEC}
+		{7B891277-B67B-4444-BB17-B40D20B014DC} = {77F03320-FCA2-4FCC-B65C-65AF50B8406F}
+		{ECD1C12E-034F-4398-84E2-56DADEAE6D99} = {50338D00-3296-4CC5-8F3B-8799A32CB739}
+		{C711D66C-3930-4108-AF79-2B23DD04A047} = {50338D00-3296-4CC5-8F3B-8799A32CB739}
+		{D6FF6214-8846-4774-A3E8-F69F9B33BD6F} = {32FB993E-EFD0-436F-BA95-0661FE78ECB7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91E3F173-ACB4-4489-ABDF-2CA410F78C4E}
+	EndGlobalSection
+EndGlobal
