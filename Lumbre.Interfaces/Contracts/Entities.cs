@@ -38,7 +38,7 @@ namespace Lumbre.Interfaces.Contracts
     { 
         public bool IsSuccess => false;
 
-        public T? Response => default(T);
+        public T? Response => default;
     }
 
     public record ObjectResponse<T>(T Value) : IExpectedResponseType where T : IIdentifiable<List<Identifier>>, new()
@@ -49,5 +49,10 @@ namespace Lumbre.Interfaces.Contracts
     public record JsonResponse(JsonPayload Value) : IExpectedResponseType
     {
         public string Name() => "Json Value";
+    }
+
+    public record StatusResponse : IExpectedResponseType
+    {
+        public string Name() => "Status";
     }
 }

@@ -33,11 +33,18 @@ namespace Lumbre
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblyContaining<Marker>();
+
+                // Handlers
                 RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => services.AddScoped(t, k), typeof(IRequestHandler<,>), typeof(QueryByIdRequest<,>), typeof(QueryByIdHandler<,>));
-                RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => services.AddScoped(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(ValidateId<,>));
-                RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => services.AddScoped(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(GetFromRepo<,>));
-                RegistrationUtilities.ResourceForResultIterator((t, k) => services.AddScoped(t, k), typeof(ObjectResponse<>),typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(Deserialize<>));
+
+                // Pipelines
+                RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => cfg.AddBehavior(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(ValidateId<,>));
+                RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => cfg.AddBehavior(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(GetFromRepo<,>));
+                RegistrationUtilities.ResourceForResultIterator((t, k) => cfg.AddBehavior(t, k), typeof(ObjectResponse<>),typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(Deserialize<>));
+
+                // Behaviors
                 RegistrationUtilities.RequestToResponseService((t, k) => services.AddScoped(t, k), typeof(ObjectResponse<>), typeof(IShapeResponse<,>), typeof(QueryByIdRequest<,>), typeof(SingleObjectResponse<>));
+                RegistrationUtilities.RequestToResponseService((t, k) => services.AddScoped(t, k), typeof(JsonResponse), typeof(IShapeResponse<,>), typeof(QueryByIdRequest<,>), typeof(SingleJsonResponse<>));
             });
 
             

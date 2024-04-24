@@ -15,5 +15,10 @@ namespace Lumbre.Middleware
         {
             return await dispatcher.Perform<T, ObjectResponse<T>>(new QueryById<Patient>(new Interfaces.Common.Primitives.ResourceId(id)));
         }
+
+        public async static Task<IResponse<JsonResponse>> GetJsonById<T>(this IFhirDispatcher dispatcher, string id) where T : IIdentifiable<List<Identifier>>, new()
+        {
+            return await dispatcher.Perform<T, JsonResponse>(new QueryById<Patient>(new Interfaces.Common.Primitives.ResourceId(id)));
+        }
     }
 }

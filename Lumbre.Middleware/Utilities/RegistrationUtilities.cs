@@ -81,7 +81,7 @@ namespace Lumbre.Middleware.Utilities
                 .ToList()
                 .ForEach(t =>
                 {
-                    var responseType = presponseType.MakeGenericType(t);
+                    var responseType = presponseType.IsGenericType? presponseType.MakeGenericType(t) : presponseType;
                     var request = prequest.MakeGenericType(t, responseType);
                     var iresponse = typeof(IResponse<>).MakeGenericType(responseType);
                     var irequesthandler = pservice.MakeGenericType(t, responseType);

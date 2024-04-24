@@ -12,9 +12,7 @@ namespace Lumbre.Middleware.Services.Concrete.ResponseShaping
 {
     internal class SingleObjectResponse<T> : IShapeResponse<T, ObjectResponse<T>> where T : IIdentifiable<List<Identifier>>, new()
     {
-        public IResponse<ObjectResponse<T>> CreateResponseFrom(IMutableCommand<T> command)
-        {
-            return new ValidResponse<ObjectResponse<T>>("found", new ObjectResponse<T>(command.RequestResource), command.JsonPayload.Value);
-        }
+        public IResponse<ObjectResponse<T>> CreateResponseFrom(IMutableCommand<T> command) 
+            => new ValidResponse<ObjectResponse<T>>("found", new ObjectResponse<T>(command.RequestResource), command.JsonPayload.Value);
     }
 }
