@@ -1,0 +1,55 @@
+﻿{
+  "active": true,
+  "address": [
+    {
+      "line": [
+        "2222 Home Street"
+      ],
+      "use": "home"
+    }
+  ],
+  "birthDate": "1973-05-31",
+  "gender": "female",
+  "id": "1",
+  "identifier": [
+    {
+      "system": "http://hl7.org/fhir/sid/us-ssn",
+      "type": {
+        "coding": [
+          {
+            "code": "SS",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+          }
+        ]
+      },
+      "value": "444222222"
+    }
+  ],
+  "managingOrganization": {
+    "reference": "Organization/hl7"
+  },
+  "meta": {
+    "lastUpdated": "2012-05-29T23:45:32+00:00"
+  },
+  "name": [
+    {
+      "family": "Everywoman",
+      "given": [
+        "Eve"
+      ],
+      "use": "official"
+    }
+  ],
+  "resourceType": "Patient",
+  "telecom": [
+    {
+      "system": "phone",
+      "use": "work",
+      "value": "555-555-2003"
+    }
+  ],
+  "text": {
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Everywoman, Eve. SSN:\n            444222222</div>",
+    "status": "generated"
+  }
+}

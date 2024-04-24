@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="SimplePersistanceHarness\BaseTestData\Patient.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest" Version="3.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lumbre.Interfaces\Lumbre.Interfaces.csproj" />
+    <ProjectReference Include="..\Lumbre.Middleware\Lumbre.Middleware.csproj" />
+    <ProjectReference Include="..\Lumbre.Persistance.Mongodb\Lumbre.Persistance.Mongodb.csproj" />
+    <ProjectReference Include="..\Lumbre.WebAPI\Lumbre.WebAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SimplePersistanceHarness\BaseTestData\Patient.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
