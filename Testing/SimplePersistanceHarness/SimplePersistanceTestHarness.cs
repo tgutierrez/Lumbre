@@ -15,11 +15,11 @@ namespace Testing.SimplePersistanceHarness
     /// <summary>
     /// Simple test harness 
     /// </summary>
-    public class SimpleTestHarness : IRepository
+    public class SimplePersistanceTestHarness : IRepository
     {
         private readonly Dictionary<CollectionName, Dictionary<ResourceId, JsonPayload>> _data;
 
-        public SimpleTestHarness() {
+        public SimplePersistanceTestHarness() {
             _data = new Dictionary<CollectionName, Dictionary<ResourceId, JsonPayload>>
             {
                 { new CollectionName("Patient"), new Dictionary<ResourceId, JsonPayload>() }
@@ -60,8 +60,8 @@ namespace Testing.SimplePersistanceHarness
     {
         public static IConfigurator AddSimpleTestHarnes(this IConfigurator cfg)
         {
-            cfg.Services.AddTransient<IRepository, SimpleTestHarness>();
-            cfg.Services.AddTransient<SimpleTestHarness>(); // Register itself so we can access it's properties
+            cfg.Services.AddTransient<IRepository, SimplePersistanceTestHarness>();
+            cfg.Services.AddTransient<SimplePersistanceTestHarness>(); // Register itself so we can access it's properties
             return cfg;
         }
     }

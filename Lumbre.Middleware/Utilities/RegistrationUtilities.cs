@@ -82,10 +82,17 @@ namespace Lumbre.Middleware.Utilities
                 .ForEach(t =>
                 {
                     var responseType = presponseType.IsGenericType? presponseType.MakeGenericType(t) : presponseType;
-                    var request = prequest.MakeGenericType(t, responseType);
+                    var request = prequest.GenericTypeArguments?.Length switch
+                    {
+                        0 => prequest,
+                        null => prequest,
+                        1 => prequest.MakeGenericType(t),
+                        2 => prequest.MakeGenericType(t, responseType),
+                        
+                    };
                     var iresponse = typeof(IResponse<>).MakeGenericType(responseType);
                     var irequesthandler = pservice.MakeGenericType(t, responseType);
-                    var concreteHandler = pimplementation.MakeGenericType(t);
+                    var concreteHandler = pimplementation.IsGenericType? pimplementation.MakeGenericType(t): pimplementation;
 
                     register(irequesthandler, concreteHandler);
                 });

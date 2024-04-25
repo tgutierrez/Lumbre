@@ -11,14 +11,13 @@ namespace Lumbre.Middleware
 {
     public static class RequestExtension
     {
-        public async static Task<IResponse<ObjectResponse<T>>> GetObjectById<T>(this IFhirDispatcher dispatcher, string id) where T : IIdentifiable<List<Identifier>>, new()
-        {
-            return await dispatcher.Perform<T, ObjectResponse<T>>(new QueryById<Patient>(new Interfaces.Common.Primitives.ResourceId(id)));
-        }
+        public async static Task<IResponse<ObjectResponse<T>>> GetObjectById<T>(this IFhirDispatcher dispatcher, string id) where T : IIdentifiable<List<Identifier>>, new() 
+            => await dispatcher.Perform<T, ObjectResponse<T>>(new QueryById<T>(new Interfaces.Common.Primitives.ResourceId(id)));
 
-        public async static Task<IResponse<JsonResponse>> GetJsonById<T>(this IFhirDispatcher dispatcher, string id) where T : IIdentifiable<List<Identifier>>, new()
-        {
-            return await dispatcher.Perform<T, JsonResponse>(new QueryById<Patient>(new Interfaces.Common.Primitives.ResourceId(id)));
-        }
+        public async static Task<IResponse<JsonResponse>> GetJsonById<T>(this IFhirDispatcher dispatcher, string id) where T : IIdentifiable<List<Identifier>>, new() 
+            => await dispatcher.Perform<T, JsonResponse>(new QueryById<T>(new Interfaces.Common.Primitives.ResourceId(id)));
+
+        public async static Task<IResponse<Outcome>> PutObject<T>(this IFhirDispatcher dispatcher, T fhirObject) where T : IIdentifiable<List<Identifier>>, new()
+            => await dispatcher.Perform<T, Outcome>(new PutRequest<T>(fhirObject));
     }
 }

@@ -15,7 +15,7 @@ namespace Lumbre.Interfaces.Contracts
         public IIdentifiable<List<Identifier>> Entity => new T(); 
     }
 
-    public record InsertRecord<T>(T Resource) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
+    public record PutRequest<T>(T Resource) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
     {
         public IIdentifiable<List<Identifier>> Entity => throw new NotImplementedException();
     }
@@ -23,6 +23,25 @@ namespace Lumbre.Interfaces.Contracts
     public record ValidResponse<T>(string Message, T Response, JsonPayload serializedResponse) : IResponse<T> where T: IExpectedResponseType
     {
         public bool IsSuccess => true;
+    }
+
+    public record AcceptedResponse : IResponse<Outcome>
+    {
+        public bool IsSuccess => true;
+
+        public string Message => "Accepted";
+
+        public Outcome? Response => new Outcome();
+
+    }
+
+    public record Rejected(string[] Reasons) : IResponse<IMutationOutcome>
+    {
+        IMutationOutcome? IResponse<IMutationOutcome>.Response => new Outcome();
+
+        public bool IsSuccess => false;
+
+        public string Message => "Rejected";
     }
 
     public record ResourceNotFound<T>(string collection, ResourceId id) : IResponse<T> where T : IExpectedResponseType
@@ -55,4 +74,10 @@ namespace Lumbre.Interfaces.Contracts
     {
         public string Name() => "Status";
     }
+
+    public record Outcome : IMutationOutcome
+    {
+        public string Name() => "Outcome of Mutation Operation";
+    }
+
 }

@@ -1,11 +1,6 @@
 ﻿using Lumbre.Middleware.Services.Definition;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lumbre;
 using Lumbre.Middleware;
 using Hl7.Fhir.Model;
@@ -20,7 +15,7 @@ namespace Testing.Integration.Query
     {
         public readonly IFhirDispatcher _dispatcher;
         public readonly IServiceCollection _services;
-        public readonly SimpleTestHarness _simpleDatabase;
+        public readonly SimplePersistanceTestHarness _simpleDatabase;
 
         public CanPerformQueryById()
         {
@@ -28,11 +23,6 @@ namespace Testing.Integration.Query
                     .AddLumbre(cfg =>
                      {
                          cfg.AddSimpleTestHarnes();
-                         //cfg.UseMongoDb(conn =>
-                         //{
-                         //    conn.DatabaseName = "FHIR";
-                         //    conn.ConnectionString = "mongodb://localhost:27017/";
-                         //});
                      });
 
             var builder = _services.BuildServiceProvider();

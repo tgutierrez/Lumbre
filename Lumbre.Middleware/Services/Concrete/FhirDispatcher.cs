@@ -15,12 +15,13 @@ namespace Lumbre.Middleware.Services.Concrete
             this._mediator = mediator;
         }
 
-        public Task<IResponse<K>> Perform<T, K>(IFHIRRequest request)
+        public async Task<IResponse<K>> Perform<T, K>(IFHIRRequest request)
             where T : IIdentifiable<List<Identifier>>, new()
             where K : IExpectedResponseType
-             => _mediator.Send(request switch
+             => (request switch
              {
-                 QueryById<T> => new QueryByIdRequest<T,K>(request as QueryById<T>),
+                 QueryById<T> => await _mediator.Send(new QueryByIdRequest<T,K>(request as QueryById<T>)),
+                 PutRequest<T> => (IResponse<K>)await _mediator.Send(new PutRequestCommand<T>(request as PutRequest<T>)),
                  _ => throw new NotImplementedException()
              });
 
