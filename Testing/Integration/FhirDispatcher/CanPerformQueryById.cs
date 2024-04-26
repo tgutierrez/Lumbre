@@ -19,6 +19,8 @@ namespace Testing.Integration.Query
 
         public CanPerformQueryById()
         {
+            SimplePersistanceTestHarness.Initialize();
+
             _services = new ServiceCollection()
                     .AddLumbre(cfg =>
                      {

@@ -4,10 +4,13 @@ using Lumbre.Middleware.Requests;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Hl7.Fhir.Validation;
+using System.Collections.ObjectModel;
 
 namespace Lumbre.Middleware.Behaviors
 {
@@ -22,6 +25,23 @@ namespace Lumbre.Middleware.Behaviors
             }
 
             return await next();
+        }
+    }
+
+    public class ValidateObject<T> : IPipelineBehavior<PutRequestCommand<T>, IResponse<Outcome>> where T : IIdentifiable<List<Identifier>>, new()
+    {
+        async Task<IResponse<Outcome>> IPipelineBehavior<PutRequestCommand<T>, IResponse<Outcome>>.Handle(PutRequestCommand<T> request, RequestHandlerDelegate<IResponse<Outcome>> next, CancellationToken cancellationToken)
+        {
+            var results = new Collection<ValidationResult>();
+            var baseelement = request.RequestContent.Resource as DomainResource;
+            baseelement.TryValidate(results, true, NarrativeValidationKind.FhirXhtml);
+
+            if ((results?.Count() ?? 0) > 0)
+            {
+                return new Rejected(results.Select(v => v.ErrorMessage).ToArray());
+            }          
+
+            return await next();   
         }
     }
 }

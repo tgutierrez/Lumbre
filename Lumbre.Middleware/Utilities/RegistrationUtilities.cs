@@ -74,6 +74,23 @@ namespace Lumbre.Middleware.Utilities
                 });
         }
 
+        internal static void RequestToResponseServiceFixedReturn(Action<Type, Type> register, Type presponseType, Type pservice, Type prequest, Type pimplementation)
+        {
+            Limits
+                .GetSupportedDocumentTypes()
+                .ToList()
+                .ForEach(t =>
+                {
+                    var responseType = presponseType.IsGenericType ? presponseType.MakeGenericType(t) : presponseType;
+                    var request = prequest.MakeGenericType(t);
+                    var iresponse = typeof(IResponse<>).MakeGenericType(responseType);
+                    var irequesthandler = pservice.MakeGenericType(request, iresponse);
+                    var concreteHandler = pimplementation.IsGenericType ? pimplementation.MakeGenericType(t) : pimplementation;
+
+                    register(irequesthandler, concreteHandler);
+                });
+        }
+
         internal static void RequestToResponseService(Action<Type, Type> register, Type presponseType, Type pservice, Type prequest, Type pimplementation)
         {
             Limits

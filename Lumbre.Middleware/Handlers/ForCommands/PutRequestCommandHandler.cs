@@ -22,9 +22,9 @@ namespace Lumbre.Middleware.Handlers.ForCommands
 
         public async Task<IResponse<Outcome>> Handle(PutRequestCommand<T> request, CancellationToken cancellationToken)
         {
-            var insertable = request.RequestContent.Entity as DocumentReference;
+            var insertable = request.RequestContent.Resource as DomainResource;
             await _repository.Upsert(
-                new Primitives.CollectionName(request.RequestContent.GetType().Name),
+                new Primitives.CollectionName(insertable.TypeName),
                 new Primitives.ResourceId(insertable.Id),
                 request.JsonPayload.Value);
 

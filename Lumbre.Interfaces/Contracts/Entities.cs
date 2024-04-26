@@ -35,9 +35,9 @@ namespace Lumbre.Interfaces.Contracts
 
     }
 
-    public record Rejected(string[] Reasons) : IResponse<IMutationOutcome>
+    public record Rejected(string[] Reasons) : IResponse<Outcome>
     {
-        IMutationOutcome? IResponse<IMutationOutcome>.Response => new Outcome();
+        Outcome? IResponse<Outcome>.Response => new Outcome();
 
         public bool IsSuccess => false;
 

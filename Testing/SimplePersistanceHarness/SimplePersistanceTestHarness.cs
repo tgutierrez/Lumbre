@@ -1,4 +1,5 @@
-﻿using Lumbre.Interfaces.Common;
+﻿using Amazon.Runtime.Internal.Transform;
+using Lumbre.Interfaces.Common;
 using Lumbre.Interfaces.Contracts;
 using Lumbre.Interfaces.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -17,19 +18,14 @@ namespace Testing.SimplePersistanceHarness
     /// </summary>
     public class SimplePersistanceTestHarness : IRepository
     {
-        private readonly Dictionary<CollectionName, Dictionary<ResourceId, JsonPayload>> _data;
+        private static readonly Dictionary<CollectionName, Dictionary<ResourceId, JsonPayload>> _data = new Dictionary<CollectionName, Dictionary<ResourceId, JsonPayload>>();
+        
 
-        public SimplePersistanceTestHarness() {
-            _data = new Dictionary<CollectionName, Dictionary<ResourceId, JsonPayload>>
-            {
-                { new CollectionName("Patient"), new Dictionary<ResourceId, JsonPayload>() }
-            };
 
-            Initialize();
-        }
-
-        private void Initialize()
+        public static void Initialize()
         {
+            _data.Clear();
+            _data.Add(new CollectionName("Patient"), new Dictionary<ResourceId, JsonPayload>());
             var jsonInput = File.ReadAllText("SimplePersistanceHarness\\BaseTestData\\Patient.json");
             _data[new CollectionName("Patient")].Add(new ResourceId("1"), new JsonPayload(jsonInput));
         }
@@ -50,6 +46,11 @@ namespace Testing.SimplePersistanceHarness
 
         public Task Upsert(Primitives.CollectionName collection, Primitives.ResourceId resourceId, Primitives.JsonPayload payload)
         {
+            if (!_data.ContainsKey(collection))
+            {
+                _data.Add(collection, new Dictionary<ResourceId, JsonPayload>());
+            }
+
             _data[collection].Add(resourceId, payload);
 
             return Task.CompletedTask;

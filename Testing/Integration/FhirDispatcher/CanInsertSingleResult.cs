@@ -20,6 +20,8 @@ namespace Testing.Integration.FhirDispatcher
 
         public CanInsertSingleResult()
         {
+            SimplePersistanceTestHarness.Initialize();
+
             _services = new ServiceCollection()
                     .AddLumbre(cfg =>
                     {

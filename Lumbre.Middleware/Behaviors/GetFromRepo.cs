@@ -24,7 +24,7 @@ namespace Lumbre.Middleware.Behaviors
         async Task<IResponse<K>> IPipelineBehavior<QueryByIdRequest<T, K>, IResponse<K>>.Handle(QueryByIdRequest<T, K> request, RequestHandlerDelegate<IResponse<K>> next, CancellationToken cancellationToken)
         {
             var requestContent = request.RequestContent;
-            var collectionName = new CollectionName(requestContent.Entity.GetType().Name);
+            var collectionName = new CollectionName((requestContent.Entity as DomainResource).TypeName);
             var id = requestContent.Id;
 
             return await _repository.ReadById(collectionName, requestContent.Id) switch

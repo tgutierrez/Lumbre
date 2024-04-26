@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lumbre.Middleware.Behaviors;
 using Lumbre.Middleware.Services.Concrete.ResponseShaping;
+using Lumbre.Middleware.Handlers.ForCommands;
 
 namespace Lumbre
 {
@@ -36,12 +37,14 @@ namespace Lumbre
 
                 // Handlers
                 RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => services.AddScoped(t, k), typeof(IRequestHandler<,>), typeof(QueryByIdRequest<,>), typeof(QueryByIdHandler<,>));
-                RegistrationUtilities.RequestToResponseService((t, k) => services.AddScoped(t, k), typeof(Outcome), typeof(IRequestHandler<,>), typeof(PutRequestCommand<>), typeof(IResponse<Outcome>));
+                RegistrationUtilities.RequestToResponseServiceFixedReturn((t, k) => services.AddScoped(t, k), typeof(Outcome), typeof(IRequestHandler<,>),  typeof(PutRequestCommand<>), typeof(PutRequestCommandHandler<>));
 
                 // Pipelines
                 RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => cfg.AddBehavior(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(ValidateId<,>));
                 RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => cfg.AddBehavior(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(GetFromRepo<,>));
                 RegistrationUtilities.ResourceForResultIterator((t, k) => cfg.AddBehavior(t, k), typeof(ObjectResponse<>),typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(Deserialize<>));
+                RegistrationUtilities.RequestToResponseServiceFixedReturn((t, k) => cfg.AddBehavior(t, k), typeof(Outcome), typeof(IPipelineBehavior<,>), typeof(PutRequestCommand<>), typeof(ValidateObject<>));
+                RegistrationUtilities.RequestToResponseServiceFixedReturn((t, k) => cfg.AddBehavior(t, k), typeof(Outcome), typeof(IPipelineBehavior<,>), typeof(PutRequestCommand<>), typeof(SerializeForPut<>));
 
                 // Behaviors
                 RegistrationUtilities.RequestToResponseService((t, k) => services.AddScoped(t, k), typeof(ObjectResponse<>), typeof(IShapeResponse<,>), typeof(QueryByIdRequest<,>), typeof(SingleObjectResponse<>));
