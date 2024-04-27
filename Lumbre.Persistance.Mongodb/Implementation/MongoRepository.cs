@@ -1,12 +1,6 @@
 ﻿using Lumbre.Interfaces.Common;
 using Lumbre.Persistance.Mongodb.Configuration;
-using MongoDB.Driver.Core.Configuration;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MongoDB.Bson;
 using Lumbre.Interfaces.Repository;
 
@@ -29,12 +23,7 @@ namespace Lumbre.Persistance.Mongodb.Implementation
 
         public async Task<IRepositoryResult> ReadById(Primitives.CollectionName collectionName, Primitives.ResourceId resourceId)
         {
-            var client = CreateClient();
-
-            var collection = client
-                                .GetDatabase(_configuration.DatabaseName)
-                                .GetCollection<BsonDocument>(collectionName);
-
+            IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
 
             var filter = Builders<BsonDocument>.Filter.Eq(EntityId, resourceId.Id);
             var projection = Builders<BsonDocument>.Projection.Exclude(MongoDBId); // avoids introducing extrenous elements on the resulting payload
@@ -60,9 +49,22 @@ namespace Lumbre.Persistance.Mongodb.Implementation
             return new Results(new Primitives.JsonPayload(str));
         }
 
-        public Task Upsert(Primitives.CollectionName collection, Primitives.ResourceId resourceId, Primitives.JsonPayload payload)
+        private IMongoCollection<BsonDocument> GetCollection(Primitives.CollectionName collectionName)
         {
-            throw new NotImplementedException();
+            var client = CreateClient();
+
+            var collection = client
+                                .GetDatabase(_configuration.DatabaseName)
+                                .GetCollection<BsonDocument>(collectionName);
+            return collection;
+        }
+
+        public async Task Upsert(Primitives.CollectionName collectionName, Primitives.ResourceId resourceId, Primitives.JsonPayload payload)
+        {
+            var collection = GetCollection(collectionName);
+            var filter = Builders<BsonDocument>.Filter.Eq(EntityId, resourceId.Id).ToBsonDocument();
+            var doc = BsonDocument.Parse(payload);
+            await collection.ReplaceOneAsync(filter, doc, new ReplaceOptions { IsUpsert = true });
         }
 
         internal MongoClient CreateClient()

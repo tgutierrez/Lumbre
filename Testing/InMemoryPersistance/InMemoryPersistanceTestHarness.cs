@@ -2,7 +2,6 @@
 using Lumbre.Interfaces.Common;
 using Lumbre.Interfaces.Contracts;
 using Lumbre.Interfaces.Repository;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -11,12 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using static Lumbre.Interfaces.Common.Primitives;
 
-namespace Testing.SimplePersistanceHarness
+namespace Testing.InMemoryPersistance
 {
     /// <summary>
     /// Simple test harness 
     /// </summary>
-    public class SimplePersistanceTestHarness : IRepository
+    public class InMemoryPersistanceTestHarness : IRepository
     {
         private static readonly Dictionary<CollectionName, Dictionary<ResourceId, JsonPayload>> _data = new Dictionary<CollectionName, Dictionary<ResourceId, JsonPayload>>();
         
@@ -26,7 +25,7 @@ namespace Testing.SimplePersistanceHarness
         {
             _data.Clear();
             _data.Add(new CollectionName("Patient"), new Dictionary<ResourceId, JsonPayload>());
-            var jsonInput = File.ReadAllText("SimplePersistanceHarness\\BaseTestData\\Patient.json");
+            var jsonInput = File.ReadAllText("BaseTestData\\Patient.json");
             _data[new CollectionName("Patient")].Add(new ResourceId("1"), new JsonPayload(jsonInput));
         }
 
@@ -59,10 +58,10 @@ namespace Testing.SimplePersistanceHarness
 
     public static class Extension
     {
-        public static IConfigurator AddSimpleTestHarnes(this IConfigurator cfg)
+        public static IConfigurator UseInMemoryPersistanceTestHarness(this IConfigurator cfg)
         {
-            cfg.Services.AddTransient<IRepository, SimplePersistanceTestHarness>();
-            cfg.Services.AddTransient<SimplePersistanceTestHarness>(); // Register itself so we can access it's properties
+            cfg.Services.AddTransient<IRepository, InMemoryPersistanceTestHarness>();
+            cfg.Services.AddTransient<InMemoryPersistanceTestHarness>(); // Register itself so we can access it's properties
             return cfg;
         }
     }

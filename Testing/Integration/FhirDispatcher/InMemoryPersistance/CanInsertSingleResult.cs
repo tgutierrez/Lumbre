@@ -7,35 +7,37 @@ using Hl7.Fhir.Model;
 using Lumbre.Interfaces.Contracts;
 using Lumbre.Interfaces.Common;
 using Task = System.Threading.Tasks.Task;
-using Testing.SimplePersistanceHarness;
+using Testing.InMemoryPersistance;
+using Microsoft.Extensions.Options;
+using System.Text.Json;
 
-namespace Testing.Integration.FhirDispatcher
+namespace Testing.Integration.FhirDispatcher.InMemoryPersistance
 {
     [TestClass]
     public class CanInsertSingleResult
     {
         public readonly IFhirDispatcher _dispatcher;
         public readonly IServiceCollection _services;
-        public readonly SimplePersistanceTestHarness _simpleDatabase;
+        public readonly InMemoryPersistanceTestHarness _simpleDatabase;
 
         public CanInsertSingleResult()
         {
-            SimplePersistanceTestHarness.Initialize();
+            InMemoryPersistanceTestHarness.Initialize();
 
             _services = new ServiceCollection()
                     .AddLumbre(cfg =>
                     {
-                        cfg.AddSimpleTestHarnes();
+                        cfg.UseInMemoryPersistanceTestHarness();
                     });
 
             var builder = _services.BuildServiceProvider();
 
             _dispatcher = builder.GetService<IFhirDispatcher>();
-            _simpleDatabase = builder.GetService<SimplePersistanceTestHarness>();
+            _simpleDatabase = builder.GetService<InMemoryPersistanceTestHarness>();
         }
 
         [TestMethod]
-        public async Task SaveWithNoIssues()
+        public async Task InsertObject()
         {
             var practitioner = new Practitioner()
             {
@@ -48,6 +50,7 @@ namespace Testing.Integration.FhirDispatcher
             Assert.IsInstanceOfType<AcceptedResponse>(response);
 
             Assert.AreEqual(1, _simpleDatabase.Data[new Primitives.CollectionName("Practitioner")].Count());
-        } 
+        }
+
     }
 }
