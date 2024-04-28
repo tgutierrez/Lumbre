@@ -12,7 +12,14 @@ namespace Lumbre.Middleware.Utilities
     public static class SerializerOptions
     {
         public static JsonSerializerOptions Get() => new JsonSerializerOptions()
-                    .ForFhir(ModelInfo.ModelInspector)
+                    .SetLumbreFHIRDefaults();
+
+        public static JsonSerializerOptions SetLumbreFHIRDefaults(this JsonSerializerOptions options)
+        {
+            options.ForFhir(ModelInfo.ModelInspector)
                     .Pretty();
+
+            return options;
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace Lumbre
                 RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => cfg.AddBehavior(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(GetFromRepo<,>));
                 RegistrationUtilities.ResourceForResultIterator((t, k) => cfg.AddBehavior(t, k), typeof(ObjectResponse<>),typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(Deserialize<>));
                 RegistrationUtilities.RequestToResponseServiceFixedReturn((t, k) => cfg.AddBehavior(t, k), typeof(Outcome), typeof(IPipelineBehavior<,>), typeof(PutRequestCommand<>), typeof(ValidateObject<>));
+                RegistrationUtilities.RequestToResponseServiceFixedReturn((t, k) => cfg.AddBehavior(t, k), typeof(Outcome), typeof(IPipelineBehavior<,>), typeof(PutRequestCommand<>), typeof(TagMeta<>));
                 RegistrationUtilities.RequestToResponseServiceFixedReturn((t, k) => cfg.AddBehavior(t, k), typeof(Outcome), typeof(IPipelineBehavior<,>), typeof(PutRequestCommand<>), typeof(SerializeForPut<>));
 
                 // Behaviors

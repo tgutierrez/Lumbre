@@ -62,9 +62,10 @@ namespace Lumbre.Persistance.Mongodb.Implementation
         public async Task Upsert(Primitives.CollectionName collectionName, Primitives.ResourceId resourceId, Primitives.JsonPayload payload)
         {
             var collection = GetCollection(collectionName);
-            var filter = Builders<BsonDocument>.Filter.Eq(EntityId, resourceId.Id).ToBsonDocument();
+            var filter = Builders<BsonDocument>.Filter.Eq(MongoDBId, resourceId.Id);
             var doc = BsonDocument.Parse(payload);
-            await collection.ReplaceOneAsync(filter, doc, new ReplaceOptions { IsUpsert = true });
+            doc.Set("_id", resourceId.Id);
+            await collection.ReplaceOneAsync(filter, doc, new ReplaceOptions { IsUpsert = true,  });
         }
 
         internal MongoClient CreateClient()

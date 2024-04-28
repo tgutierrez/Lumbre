@@ -35,13 +35,26 @@ namespace Lumbre.Middleware.Behaviors
             var results = new Collection<ValidationResult>();
             var baseelement = request.RequestContent.Resource as DomainResource;
             baseelement.TryValidate(results, true, NarrativeValidationKind.FhirXhtml);
-
+            ValidateIdContent(request.RequestContent, baseelement, results);
             if ((results?.Count() ?? 0) > 0)
             {
                 return new Rejected(results.Select(v => v.ErrorMessage).ToArray());
             }          
 
             return await next();   
+        }
+
+        private void ValidateIdContent(PutRequest<T> requestContent, DomainResource baseelement, Collection<ValidationResult> results)
+        {
+            if (String.IsNullOrEmpty(baseelement.Id)) 
+            {
+                results.Add(new ValidationResult("Id missing from Resource"));
+            }
+
+            if (baseelement.Id != requestContent.Id)
+            {
+                results.Add(new ValidationResult("Insertion Id and Resource Id must be equal"));
+            }
         }
     }
 }

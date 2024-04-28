@@ -15,7 +15,7 @@ namespace Lumbre.Interfaces.Contracts
         public IIdentifiable<List<Identifier>> Entity => new T(); 
     }
 
-    public record PutRequest<T>(T Resource) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
+    public record PutRequest<T>(T Resource, ResourceId Id) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
     {
         public IIdentifiable<List<Identifier>> Entity => throw new NotImplementedException();
     }

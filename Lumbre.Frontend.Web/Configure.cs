@@ -1,6 +1,10 @@
 ﻿using Lumbre.Frontend.Web.Configuration;
 using System.Net;
 using Lumbre.Frontend.Web.RequestHandlers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json;
+using Lumbre.Middleware.Utilities;
 
 namespace Lumbre
 {
@@ -28,8 +32,16 @@ namespace Lumbre
                     endpoints.MapGroup($"/{config.BasePath}")
                        .MapFHIRRoutes();
                 });
+                
             });
-
+            hostBuilder.ConfigureServices(services =>
+            {
+                //services.Configure<JsonSerializerOptions>(opt => opt.SetLumbreFHIRDefaults());
+                services.Configure<JsonOptions>(opt =>
+                {
+                    opt.SerializerOptions.SetLumbreFHIRDefaults();
+                });
+            });
             return hostBuilder;
         }
 

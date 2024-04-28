@@ -45,12 +45,27 @@ namespace Testing.Integration.FhirDispatcher.InMemoryPersistance
                 Name = { new HumanName() { Family = "Riviera", Given = ["Nick"] } }
             };
 
-            var response = await _dispatcher.PutObject(practitioner);
+            var response = await _dispatcher.PutObject(practitioner, "1");
 
             Assert.IsInstanceOfType<AcceptedResponse>(response);
 
             Assert.AreEqual(1, _simpleDatabase.Data[new Primitives.CollectionName("Practitioner")].Count());
         }
 
+        [TestMethod]
+        public async Task InsertObjectWithoutId()
+        {
+            var practitioner = new Practitioner()
+            {
+                Name = { new HumanName() { Family = "Riviera", Given = ["Nick"] } }
+            };
+
+            var response = await _dispatcher.PutObject(practitioner, "1");
+
+            Assert.IsInstanceOfType<Rejected>(response);
+            Assert.AreEqual(2, ((Rejected)response).Reasons.Length);
+            Assert.AreEqual("Id missing from Resource", ((Rejected)response).Reasons[0]);
+            Assert.AreEqual("Insertion Id and Resource Id must be equal", ((Rejected)response).Reasons[1]);
+        }
     }
 }
