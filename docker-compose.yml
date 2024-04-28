@@ -8,11 +8,18 @@ services:
     volumes:
       - mongodb_data_container:/data/db
       - ./mongo-init/:/docker-entrypoint-initdb.d/:ro
-  Lumbre.WebAPI:
-    image: ${DOCKER_REGISTRY-}lumbre.webapi
+
+  samplehost:
+    image: ${DOCKER_REGISTRY-}samplehost
+    ports:
+      - 5000:5000
+      - 8080:8080
     build:
       context: .
-      dockerfile: Lumbre.WebAPI/Dockerfile
+      dockerfile: SampleHost/Dockerfile
+
+
 volumes:
    mongodb_data_container:
+
 

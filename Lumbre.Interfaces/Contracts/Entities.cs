@@ -25,7 +25,7 @@ namespace Lumbre.Interfaces.Contracts
         public bool IsSuccess => true;
     }
 
-    public record AcceptedResponse : IResponse<Outcome>
+    public record AcceptedResponse<T>(T AcceptedValue) : IResponse<Outcome>
     {
         public bool IsSuccess => true;
 

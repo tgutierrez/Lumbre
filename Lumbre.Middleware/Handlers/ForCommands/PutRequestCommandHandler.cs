@@ -23,18 +23,13 @@ namespace Lumbre.Middleware.Handlers.ForCommands
         public async Task<IResponse<Outcome>> Handle(PutRequestCommand<T> request, CancellationToken cancellationToken)
         {
             var insertable = request.RequestContent.Resource as DomainResource;
-            // add meta
-            insertable.Meta = new Meta
-            {
-                LastUpdated = DateTime.UtcNow,
-                VersionId = Guid.NewGuid().ToString(),
-            };
+
             await _repository.Upsert(
                 new Primitives.CollectionName(insertable.TypeName),
                 new Primitives.ResourceId(request.RequestContent.Id),
                 request.JsonPayload.Value);
 
-            return new AcceptedResponse();
+            return new AcceptedResponse<T>(request.RequestContent.Resource);
         }
     }
 }

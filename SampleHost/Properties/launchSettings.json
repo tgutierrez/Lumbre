@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "SampleHost": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "MongoDB__ConnString": "mongodb://localhost:27017",
+        "MongoDB__Database": "FHIR"
+      }
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

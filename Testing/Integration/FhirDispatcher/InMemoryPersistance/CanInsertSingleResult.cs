@@ -47,7 +47,7 @@ namespace Testing.Integration.FhirDispatcher.InMemoryPersistance
 
             var response = await _dispatcher.PutObject(practitioner, "1");
 
-            Assert.IsInstanceOfType<AcceptedResponse>(response);
+            Assert.IsInstanceOfType<AcceptedResponse<Practitioner>>(response);
 
             Assert.AreEqual(1, _simpleDatabase.Data[new Primitives.CollectionName("Practitioner")].Count());
         }

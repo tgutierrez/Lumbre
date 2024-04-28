@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Lumbre;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 
 var builder = Host.CreateDefaultBuilder()
@@ -13,12 +14,14 @@ var builder = Host.CreateDefaultBuilder()
         cfg.ApplicationBuilder.UseSwaggerUI();
         cfg.UseSelfHosting();
     })
-    .ConfigureServices(services =>
+    .ConfigureServices((context, services) =>
             services.AddLumbre(l =>
                 l.UseMongoDb(c =>
                 {
-                    c.DatabaseName = "FHIR";
-                    c.ConnectionString = "mongodb://localhost:27017";
+                    var connString = context.Configuration.GetSection("MongoDB").GetValue<string>("ConnString");
+                    var dbName     = context.Configuration.GetSection("MongoDB").GetValue<string>("Database");
+                    c.DatabaseName = dbName;
+                    c.ConnectionString = connString;
                 }))
                 .AddSwaggerGen()
                 .AddEndpointsApiExplorer()

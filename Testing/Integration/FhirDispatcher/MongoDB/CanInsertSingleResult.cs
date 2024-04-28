@@ -51,7 +51,7 @@ namespace Testing.Integration.FhirDispatcher.MongoDB
 
             var response = await _dispatcher.PutObject(practitioner, "2");
 
-            Assert.IsInstanceOfType<AcceptedResponse>(response);
+            Assert.IsInstanceOfType<AcceptedResponse<Practitioner>>(response);
 
             Assert.That.ExistOnDb(ConnString, "Practitioner", f => f.Eq("id", "2"));
         }

@@ -34,6 +34,17 @@ namespace Lumbre.Middleware.Behaviors
         {
             var results = new Collection<ValidationResult>();
             var baseelement = request.RequestContent.Resource as DomainResource;
+
+            if (baseelement == null) 
+            { 
+                return new Rejected([$"Resource is not valid on this context"]);
+            }
+
+            if (baseelement is not T)
+            {
+                return new Rejected([$"Resource of Type {baseelement.TypeName} cannot be accepted as {typeof(T).Name}"]);
+            }
+
             baseelement.TryValidate(results, true, NarrativeValidationKind.FhirXhtml);
             ValidateIdContent(request.RequestContent, baseelement, results);
             if ((results?.Count() ?? 0) > 0)

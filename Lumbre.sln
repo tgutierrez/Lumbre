@@ -26,11 +26,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{E431
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing", "Testing\Testing.csproj", "{42BA26D8-ED89-4067-8472-EED44847E2CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleHost", "SampleHost\SampleHost.csproj", "{EDD899FB-1B52-42E9-AC2B-0AEF760B0320}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleHost", "SampleHost\SampleHost.csproj", "{EDD899FB-1B52-42E9-AC2B-0AEF760B0320}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{F1AB753B-B035-4FCB-AF0C-C4D323FACB7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumbre.Frontend.Web", "Lumbre.Frontend.Web\Lumbre.Frontend.Web.csproj", "{A6988BFE-01C0-479F-BA4E-333E6C581662}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lumbre.Frontend.Web", "Lumbre.Frontend.Web\Lumbre.Frontend.Web.csproj", "{A6988BFE-01C0-479F-BA4E-333E6C581662}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +71,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{1E193BA2-66B2-4F6E-8725-FAC70089093F} = {E43101EA-0ED8-4ED6-A6C9-A46CC3ED0713}
 		{14F6BBAD-A9D6-4E39-9EDC-45D7D6B9E6D6} = {585D823E-2C43-4F59-B128-58CBEDD10BD5}
 		{4618630D-232F-465E-9923-5C0498C807A6} = {E0113B1A-43B1-4099-A3F9-1D9DA4BCCDEC}
 		{7B891277-B67B-4444-BB17-B40D20B014DC} = {77F03320-FCA2-4FCC-B65C-65AF50B8406F}

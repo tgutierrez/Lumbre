@@ -29,7 +29,7 @@ namespace Lumbre.Frontend.Web.RequestHandlers
             return result switch
             {
                 Rejected r => TypedResults.BadRequest(r),
-                AcceptedResponse r => TypedResults.Text(r.Message, "application/json"),
+                AcceptedResponse<T> r => TypedResults.Json(r.AcceptedValue),
                 _ => throw new NotImplementedException(),
             };
         }
