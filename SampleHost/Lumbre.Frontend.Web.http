@@ -1,0 +1,7 @@
+@Lumbre.Frontend.Web_HostAddress = http://localhost:5000
+@Lumbre.BasePath = FHIR
+
+GET {{Lumbre.Frontend.Web_HostAddress}}/{{Lumbre.BasePath}}/Patient/1
+Accept: application/json
+
+###

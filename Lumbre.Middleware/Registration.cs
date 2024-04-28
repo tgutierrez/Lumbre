@@ -28,7 +28,7 @@ namespace Lumbre
             #region Configuration
             configure?.Invoke(new Configurator(services));
             #endregion
-
+             
             #region Service Registration
 
             services.AddMediatR(cfg =>

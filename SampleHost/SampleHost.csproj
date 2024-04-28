@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lumbre.Frontend.Web\Lumbre.Frontend.Web.csproj" />
+    <ProjectReference Include="..\Lumbre.Interfaces\Lumbre.Interfaces.csproj" />
+    <ProjectReference Include="..\Lumbre.Middleware\Lumbre.Middleware.csproj" />
+    <ProjectReference Include="..\Lumbre.Persistance.Mongodb\Lumbre.Persistance.Mongodb.csproj" />
+  </ItemGroup>
+
+</Project>
