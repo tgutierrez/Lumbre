@@ -17,5 +17,8 @@ Currently supported operations:
 Currently supported presentation methods:
 - FHIR Object
 - Raw Json
+- JSON based REST API
+  - Get By ID
+  - PUT
 
 ...but above all, this is my attempt to learn the intrincacies of an extensible architecture and the inner workings of Mediatr.
