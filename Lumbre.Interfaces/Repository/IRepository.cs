@@ -9,7 +9,8 @@ namespace Lumbre.Interfaces.Repository
 {
     public interface IRepository
     {
-        Task Upsert(CollectionName collection, ResourceId resourceId, JsonPayload payload);
+        Task<IRepositoryResult> Upsert(CollectionName collection, ResourceId resourceId, JsonPayload payload);
         Task<IRepositoryResult> ReadById(CollectionName collectionName, ResourceId resourceId);
+        Task<IRepositoryResult> DeleteById(CollectionName collectionName, ResourceId resourceId);
     }
 }

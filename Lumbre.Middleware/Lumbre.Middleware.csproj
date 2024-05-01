@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+    <Description>A low ambition, low cost, low spec, noncompliant FHIR Middleware that gives limited FHIR capabilities to any app.</Description>
   </PropertyGroup>
 
   <ItemGroup>

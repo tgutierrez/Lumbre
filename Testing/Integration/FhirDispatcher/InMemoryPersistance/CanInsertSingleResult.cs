@@ -45,7 +45,7 @@ namespace Testing.Integration.FhirDispatcher.InMemoryPersistance
                 Name = { new HumanName() { Family = "Riviera", Given = ["Nick"] } }
             };
 
-            var response = await _dispatcher.PutObject(practitioner, "1");
+            var response = await _dispatcher.PutResource(practitioner, "1");
 
             Assert.IsInstanceOfType<AcceptedResponse<Practitioner>>(response);
 
@@ -60,7 +60,7 @@ namespace Testing.Integration.FhirDispatcher.InMemoryPersistance
                 Name = { new HumanName() { Family = "Riviera", Given = ["Nick"] } }
             };
 
-            var response = await _dispatcher.PutObject(practitioner, "1");
+            var response = await _dispatcher.PutResource(practitioner, "1");
 
             Assert.IsInstanceOfType<Rejected>(response);
             Assert.AreEqual(2, ((Rejected)response).Reasons.Length);

@@ -26,6 +26,7 @@ namespace Testing.InMemoryPersistance
             _data.Clear();
             _data.Add(new CollectionName("Patient"), new Dictionary<ResourceId, JsonPayload>());
             var jsonInput = File.ReadAllText("BaseTestData\\Patient.json");
+            jsonInput = jsonInput.Replace("\"_id\": \"1\",", ""); // Kludge to support deserialization, as HL7.Deserialize does not support extra elements.
             _data[new CollectionName("Patient")].Add(new ResourceId("1"), new JsonPayload(jsonInput));
         }
 
@@ -39,11 +40,11 @@ namespace Testing.InMemoryPersistance
                 return Task.FromResult(new Results(result) as IRepositoryResult);
             }
 
-            return Task.FromResult(new NotFound() as IRepositoryResult);  
+            return Task.FromResult<IRepositoryResult>(new NotFound());  
         }
             
 
-        public Task Upsert(Primitives.CollectionName collection, Primitives.ResourceId resourceId, Primitives.JsonPayload payload)
+        public Task<IRepositoryResult> Upsert(Primitives.CollectionName collection, Primitives.ResourceId resourceId, Primitives.JsonPayload payload)
         {
             if (!_data.ContainsKey(collection))
             {
@@ -52,7 +53,24 @@ namespace Testing.InMemoryPersistance
 
             _data[collection].Add(resourceId, payload);
 
-            return Task.CompletedTask;
+            return Task.FromResult<IRepositoryResult>(new Completed(1));
+        }
+
+        public Task<IRepositoryResult> DeleteById(CollectionName collection, ResourceId resourceId)
+        {
+            if (!_data.ContainsKey(collection))
+            {
+                _data.Add(collection, new Dictionary<ResourceId, JsonPayload>());
+            }
+
+            if (!_data[collection].Any(v => v.Key == resourceId))
+            {
+                return Task.FromResult(new NotFound() as IRepositoryResult);
+            }
+
+            _data[collection].Remove(resourceId);
+
+            return Task.FromResult<IRepositoryResult>(new Completed(1));
         }
     }
 

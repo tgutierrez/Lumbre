@@ -3,6 +3,7 @@ using Lumbre.Persistance.Mongodb.Configuration;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Lumbre.Interfaces.Repository;
+using Lumbre.Interfaces.Contracts;
 
 namespace Lumbre.Persistance.Mongodb.Implementation
 {
@@ -59,18 +60,34 @@ namespace Lumbre.Persistance.Mongodb.Implementation
             return collection;
         }
 
-        public async Task Upsert(Primitives.CollectionName collectionName, Primitives.ResourceId resourceId, Primitives.JsonPayload payload)
+        public async Task<IRepositoryResult> Upsert(Primitives.CollectionName collectionName, Primitives.ResourceId resourceId, Primitives.JsonPayload payload)
         {
             var collection = GetCollection(collectionName);
             var filter = Builders<BsonDocument>.Filter.Eq(MongoDBId, resourceId.Id);
             var doc = BsonDocument.Parse(payload);
             doc.Set("_id", resourceId.Id);
-            await collection.ReplaceOneAsync(filter, doc, new ReplaceOptions { IsUpsert = true,  });
+            var result = await collection.ReplaceOneAsync(filter, doc, new ReplaceOptions { IsUpsert = true,  });
+
+            return new Completed(1);
         }
 
         internal MongoClient CreateClient()
         {
             return new MongoClient(_configuration.ConnectionString);
+        }
+
+        public async Task<IRepositoryResult> DeleteById(Primitives.CollectionName collectionName, Primitives.ResourceId resourceId)
+        {
+            var collection = GetCollection(collectionName);
+            var filter = Builders<BsonDocument>.Filter.Eq(MongoDBId, resourceId.Id);
+            var result = await collection.DeleteOneAsync(filter);
+
+            return result.DeletedCount switch
+            {
+                0 => new NotFound(),
+                >= 1 => new Completed(result.DeletedCount),
+                _ => throw new InvalidOperationException()
+            };
         }
     }
 }

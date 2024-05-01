@@ -11,6 +11,7 @@
   "birthDate": "1973-05-31",
   "gender": "female",
   "id": "1",
+  "_id": "1",
   "identifier": [
     {
       "system": "http://hl7.org/fhir/sid/us-ssn",

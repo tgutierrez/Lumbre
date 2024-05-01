@@ -38,6 +38,7 @@ namespace Lumbre
                 // Handlers
                 RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => services.AddScoped(t, k), typeof(IRequestHandler<,>), typeof(QueryByIdRequest<,>), typeof(QueryByIdHandler<,>));
                 RegistrationUtilities.RequestToResponseServiceFixedReturn((t, k) => services.AddScoped(t, k), typeof(Outcome), typeof(IRequestHandler<,>),  typeof(PutRequestCommand<>), typeof(PutRequestCommandHandler<>));
+                RegistrationUtilities.RequestToResponseServiceFixedReturn((t, k) => services.AddScoped(t, k), typeof(Outcome), typeof(IRequestHandler<,>), typeof(DeleteRequestCommand<>), typeof(DeleteRequestCommandHandler<>));
 
                 // Pipelines
                 RegistrationUtilities.ResourceAndAllResultTypesIterator((t, k) => cfg.AddBehavior(t, k), typeof(IPipelineBehavior<,>), typeof(QueryByIdRequest<,>), typeof(ValidateId<,>));

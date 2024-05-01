@@ -1,7 +1,7 @@
-@Lumbre.Frontend.Web_HostAddress = http://localhost:8080
+@Lumbre.Frontend.Web_HostAddress = http://localhost:5000
 @Lumbre.BasePath = FHIR
 
-GET {{Lumbre.Frontend.Web_HostAddress}}/{{Lumbre.BasePath}}/Patient/1
+GET {{Lumbre.Frontend.Web_HostAddress}}/{{Lumbre.BasePath}}/Patient/pat1
 Accept: application/json
 
 ###
@@ -82,6 +82,9 @@ Content-Type: application/json
 
 ###
 
+DELETE {{Lumbre.Frontend.Web_HostAddress}}/{{Lumbre.BasePath}}/Patient/pat1
+###
+
 GET {{Lumbre.Frontend.Web_HostAddress}}/{{Lumbre.BasePath}}/Practitioner/f002
 Accept: application/json
 
@@ -152,3 +155,5 @@ Content-Type: application/json
   "birthDate": "1979-04-29"
 }
 ###
+DELETE {{Lumbre.Frontend.Web_HostAddress}}/{{Lumbre.BasePath}}/Practitioner/f002
+      

@@ -15,4 +15,10 @@ namespace Lumbre.Middleware.Requests
         public Primitives.JsonPayload? JsonPayload { get; set; }
         public T? RequestResource { get; set; }
     }
+
+    internal record DeleteRequestCommand<T>(DeleteRequest<T> RequestContent) : IRequest<IResponse<Outcome>>, IMutableCommand<T> where T : IIdentifiable<List<Identifier>>, new()
+    {
+        public Primitives.JsonPayload? JsonPayload { get; set; }
+        public T? RequestResource { get; set; }
+    }
 }

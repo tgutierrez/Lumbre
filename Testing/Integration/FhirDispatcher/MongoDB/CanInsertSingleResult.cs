@@ -49,7 +49,7 @@ namespace Testing.Integration.FhirDispatcher.MongoDB
                 Name = { new HumanName() { Family = "Riviera", Given = ["Nick"] } }
             };
 
-            var response = await _dispatcher.PutObject(practitioner, "2");
+            var response = await _dispatcher.PutResource(practitioner, "2");
 
             Assert.IsInstanceOfType<AcceptedResponse<Practitioner>>(response);
 

@@ -22,6 +22,7 @@ namespace Lumbre.Middleware.Services.Concrete
              {
                  QueryById<T> => await _mediator.Send(new QueryByIdRequest<T,K>(request as QueryById<T>)),
                  PutRequest<T> => (IResponse<K>)await _mediator.Send(new PutRequestCommand<T>(request as PutRequest<T>)),
+                 DeleteRequest<T> => (IResponse<K>)await _mediator.Send(new DeleteRequestCommand<T>(request as DeleteRequest<T>)),
                  _ => throw new NotImplementedException()
              });
 

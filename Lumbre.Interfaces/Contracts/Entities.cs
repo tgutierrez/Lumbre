@@ -17,7 +17,12 @@ namespace Lumbre.Interfaces.Contracts
 
     public record PutRequest<T>(T Resource, ResourceId Id) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
     {
-        public IIdentifiable<List<Identifier>> Entity => throw new NotImplementedException();
+        public IIdentifiable<List<Identifier>> Entity => new T();
+    }
+
+    public record DeleteRequest<T>(ResourceId Id) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
+    {
+        public IIdentifiable<List<Identifier>> Entity => new T();
     }
 
     public record ValidResponse<T>(string Message, T Response, JsonPayload serializedResponse) : IResponse<T> where T: IExpectedResponseType

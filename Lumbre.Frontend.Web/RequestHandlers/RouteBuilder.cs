@@ -15,6 +15,7 @@ namespace Lumbre.Frontend.Web.RequestHandlers
             {
                 MapGet(group, type);
                 MapPut(group, type);    
+                MapDelete(group, type);
             }
 
             return group;
@@ -42,6 +43,18 @@ namespace Lumbre.Frontend.Web.RequestHandlers
                 .WithOpenApi()
                 .WithMetadata()
                 .WithName($"PUT {type.Name} on Id");
+        }
+
+        private static void MapDelete(RouteGroupBuilder group, Type type)
+        {
+            Type request = typeof(Requests);
+            var baseMethod = request.GetMethod("DeleteSingle");
+            var typedMethod = baseMethod.MakeGenericMethod(type);
+
+            group.MapDelete($"/{type.Name}/{{id}}", Delegate.CreateDelegate(typeof(DeleteSingleDelegate<>).MakeGenericType(type), typedMethod))
+                .WithOpenApi()
+                .WithMetadata()
+                .WithName($"DELETE {type.Name} on Id");
         }
     }
 }

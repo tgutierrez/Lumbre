@@ -51,6 +51,7 @@ namespace Lumbre
             configAction?.Invoke(config);
             configuration.WebHost.UseKestrel(cfg => {
                 cfg.Listen(new IPEndPoint(IPAddress.Parse(config.IP), config.Port));
+                cfg.ListenLocalhost(config.Port);
             });
         }
     }

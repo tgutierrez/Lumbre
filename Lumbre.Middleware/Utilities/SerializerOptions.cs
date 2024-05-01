@@ -16,9 +16,12 @@ namespace Lumbre.Middleware.Utilities
 
         public static JsonSerializerOptions SetLumbreFHIRDefaults(this JsonSerializerOptions options)
         {
-            options.ForFhir(ModelInfo.ModelInspector)
+            options.ForFhir(ModelInfo.ModelInspector, new FhirJsonPocoDeserializerSettings
+            {
+                
+            })
                     .Pretty();
-
+            options.UnmappedMemberHandling = System.Text.Json.Serialization.JsonUnmappedMemberHandling.Skip;
             return options;
         }
     }

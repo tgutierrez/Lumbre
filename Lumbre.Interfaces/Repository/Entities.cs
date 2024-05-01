@@ -21,3 +21,10 @@ public record NotFound : IRepositoryResult
     public bool HasResult => false;
     public JsonPayload? Result => null;
 }
+
+public record Completed(long Count) : IRepositoryResult
+{
+    public bool HasResult => false;
+
+    public JsonPayload? Result => null;
+}

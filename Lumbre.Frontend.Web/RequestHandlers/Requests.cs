@@ -1,5 +1,6 @@
 ﻿using Hl7.Fhir.Model;
 using Lumbre.Interfaces.Contracts;
+using Lumbre.Interfaces.Repository;
 using Lumbre.Middleware;
 using Lumbre.Middleware.Services.Definition;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,8 @@ namespace Lumbre.Frontend.Web.RequestHandlers
     {
         public delegate Task<IResult> GetSingleDelegate<T>(string id, IFhirDispatcher fhirDispatcher) where T : IIdentifiable<List<Identifier>>, new();
         public delegate Task<IResult> PutSingleDelegate<T>([FromBody]T entity, string id, IFhirDispatcher fhirDispatcher) where T : class, IIdentifiable<List<Identifier>>, new();
+        public delegate Task<IResult> DeleteSingleDelegate<T>(string id, IFhirDispatcher fhirDispatcher) where T : class, IIdentifiable<List<Identifier>>, new();
+
         public static async Task<IResult> GetSingle<T>(string id, IFhirDispatcher fhirDispatcher) where T: IIdentifiable<List<Identifier>>, new()
         {
             var result = await fhirDispatcher.GetJsonById<T>(id);
@@ -24,12 +27,24 @@ namespace Lumbre.Frontend.Web.RequestHandlers
 
         public static async Task<IResult> PutSingle<T>([FromBody] DomainResource entity, string id, IFhirDispatcher fhirDispatcher) where T : class, IIdentifiable<List<Identifier>>, new()
         {
-            var result = await fhirDispatcher.PutObject(entity as T, id);
+            var result = await fhirDispatcher.PutResource(entity as T, id);
 
             return result switch
             {
                 Rejected r => TypedResults.BadRequest(r),
                 AcceptedResponse<T> r => TypedResults.Json(r.AcceptedValue),
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        public static async Task<IResult> DeleteSingle<T>(string id, IFhirDispatcher fhirDispatcher) where T : class, IIdentifiable<List<Identifier>>, new()
+        {
+            var result = await fhirDispatcher.DeleteResource<T>(id);
+
+            return result switch
+            {
+                Rejected r => TypedResults.BadRequest(r),
+                AcceptedResponse<Completed> r => TypedResults.Json(r.AcceptedValue),
                 _ => throw new NotImplementedException(),
             };
         }

@@ -1,4 +1,5 @@
 ﻿using Hl7.Fhir.Model;
+using Lumbre.Interfaces.Common;
 using Lumbre.Interfaces.Contracts;
 using System;
 using System.Collections.Generic;

@@ -12,7 +12,11 @@ var builder = Host.CreateDefaultBuilder()
     {
         cfg.ApplicationBuilder.UseSwagger();
         cfg.ApplicationBuilder.UseSwaggerUI();
-        cfg.UseSelfHosting();
+        cfg.UseSelfHosting(c =>
+        {
+            c.IP = "127.0.0.1";
+            c.Port = 8080;
+        });
     })
     .ConfigureServices((context, services) =>
             services.AddLumbre(l =>
