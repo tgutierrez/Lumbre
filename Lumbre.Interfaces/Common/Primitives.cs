@@ -24,5 +24,9 @@ namespace Lumbre.Interfaces.Common
             public static implicit operator string(CollectionName collectionName) => collectionName.Name;
         }
 
+        public readonly record struct PagedResults(int PageSize, int PageNumber)
+        {
+            public PagedResults() : this(25, 1) { }
+        }
     }
 }

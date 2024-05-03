@@ -2,6 +2,7 @@
 using MediatR;
 using static Lumbre.Interfaces.Common.Primitives;
 using Lumbre.Interfaces.Contracts;
+using System.Linq.Expressions;
 
 namespace Lumbre.Middleware.Requests
 {
@@ -10,4 +11,6 @@ namespace Lumbre.Middleware.Requests
         public JsonPayload? JsonPayload { get; set; }
         public T? RequestResource { get; set; }
     }
+
+    internal record QueryByPredicateRequest<T>(QueryByPredicate<T> PredicateHolder) : IRequest<BundledRespose> where T : IIdentifiable<List<Identifier>>, new();
 }

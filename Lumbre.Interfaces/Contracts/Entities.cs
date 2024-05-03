@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using static Lumbre.Interfaces.Common.Primitives;
@@ -13,6 +14,11 @@ namespace Lumbre.Interfaces.Contracts
     public record QueryById<T>(ResourceId Id) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
     {
         public IIdentifiable<List<Identifier>> Entity => new T(); 
+    }
+
+    public record QueryByPredicate<T>(Expression<Func<Query<T>, bool>> Predicate) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
+    {
+        public IIdentifiable<List<Identifier>> Entity => new T();
     }
 
     public record PutRequest<T>(T Resource, ResourceId Id) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
@@ -63,6 +69,11 @@ namespace Lumbre.Interfaces.Contracts
         public bool IsSuccess => false;
 
         public T? Response => default;
+    }
+
+    public record BundledRespose(Bundle Value) : IExpectedResponseType 
+    {
+        public string Name() => "Bundle Response";
     }
 
     public record ObjectResponse<T>(T Value) : IExpectedResponseType where T : IIdentifiable<List<Identifier>>, new()
