@@ -1,7 +1,8 @@
 ﻿using Hl7.Fhir.Model;
 using Lumbre;
 using Lumbre.Interfaces.Contracts;
-using Lumbre.Interfaces.Contracts.Query;
+using Lumbre.Interfaces.Query;
+using Lumbre.Interfaces.Query.Definitions;
 using Lumbre.Middleware;
 using Lumbre.Middleware.Services.Definition;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,7 +43,7 @@ namespace Testing.Integration.FhirDispatcher.InMemoryPersistance
         [TestMethod]
         public async System.Threading.Tasks.Task CanGetAResultAsBundle()
         {
-            var outcome = await _dispatcher.GetResultsFor<Patient>(x => x.Id == "nope");
+            var outcome = await _dispatcher.GetResultsFor<Patient, PatientQuery>(p => p.Organization == "Lumbre");
             Assert.IsNotNull(outcome);
             Assert.IsInstanceOfType<BundledRespose>(outcome);
 

@@ -4,6 +4,10 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using Lumbre.Interfaces.Repository;
 using Lumbre.Interfaces.Contracts;
+using System.Linq.Expressions;
+using Hl7.Fhir.Model;
+using Lumbre.Interfaces.Query;
+using Lumbre.Interfaces.Query.Descriptors;
 
 namespace Lumbre.Persistance.Mongodb.Implementation
 {
@@ -88,6 +92,11 @@ namespace Lumbre.Persistance.Mongodb.Implementation
                 >= 1 => new Completed(result.DeletedCount),
                 _ => throw new InvalidOperationException()
             };
+        }
+
+        public Task<IEnumerable<IRepositoryResult>> Query(Primitives.CollectionName collectionName, ISearchExpression[] Predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 }

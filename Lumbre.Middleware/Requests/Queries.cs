@@ -3,6 +3,7 @@ using MediatR;
 using static Lumbre.Interfaces.Common.Primitives;
 using Lumbre.Interfaces.Contracts;
 using System.Linq.Expressions;
+using Lumbre.Interfaces.Query;
 
 namespace Lumbre.Middleware.Requests
 {
@@ -12,5 +13,5 @@ namespace Lumbre.Middleware.Requests
         public T? RequestResource { get; set; }
     }
 
-    internal record QueryByPredicateRequest<T>(QueryByPredicate<T> PredicateHolder) : IRequest<BundledRespose> where T : IIdentifiable<List<Identifier>>, new();
+    internal record QueryByPredicateRequest<T, Q>(QueryByPredicate<T, Q> PredicateHolder) : IRequest<IResponse<BundledRespose>> where T : IIdentifiable<List<Identifier>>, new() where Q: IQuery<T>;
 }

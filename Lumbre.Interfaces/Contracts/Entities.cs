@@ -1,4 +1,5 @@
 ﻿using Hl7.Fhir.Model;
+using Lumbre.Interfaces.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Lumbre.Interfaces.Contracts
         public IIdentifiable<List<Identifier>> Entity => new T(); 
     }
 
-    public record QueryByPredicate<T>(Expression<Func<Query<T>, bool>> Predicate) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new()
+    public record QueryByPredicate<T, Q>(Expression<Func<Q, bool>> Predicate) : IFHIRRequest where T : IIdentifiable<List<Identifier>>, new() where Q: IQuery<T>
     {
         public IIdentifiable<List<Identifier>> Entity => new T();
     }

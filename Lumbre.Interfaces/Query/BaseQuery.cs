@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumbre.Interfaces.Contracts
+namespace Lumbre.Interfaces.Query
 {
-    public class Query<T> where T : IIdentifiable<List<Identifier>>, new()
+    public interface IQuery<out T> where T : IIdentifiable<List<Identifier>>, new()
     {
-        public string Id { get; set; }
     }
 }

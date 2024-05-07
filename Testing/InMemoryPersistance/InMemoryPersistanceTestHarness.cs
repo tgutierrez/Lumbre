@@ -1,14 +1,19 @@
 ﻿using Amazon.Runtime.Internal.Transform;
+using Hl7.Fhir.Model;
 using Lumbre.Interfaces.Common;
 using Lumbre.Interfaces.Contracts;
+using Lumbre.Interfaces.Query;
+using Lumbre.Interfaces.Query.Descriptors;
 using Lumbre.Interfaces.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using static Lumbre.Interfaces.Common.Primitives;
+using Task = System.Threading.Tasks.Task;
 
 namespace Testing.InMemoryPersistance
 {
@@ -71,6 +76,11 @@ namespace Testing.InMemoryPersistance
             _data[collection].Remove(resourceId);
 
             return Task.FromResult<IRepositoryResult>(new Completed(1));
+        }
+
+        public Task<IEnumerable<IRepositoryResult>> Query(CollectionName collectionName, ISearchExpression[] Predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 

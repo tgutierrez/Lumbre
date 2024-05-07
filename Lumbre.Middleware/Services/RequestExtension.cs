@@ -1,5 +1,6 @@
 ﻿using Hl7.Fhir.Model;
 using Lumbre.Interfaces.Contracts;
+using Lumbre.Interfaces.Query;
 using Lumbre.Middleware.Requests;
 using Lumbre.Middleware.Services.Definition;
 using System;
@@ -25,7 +26,7 @@ namespace Lumbre.Middleware
         public async static Task<IResponse<Outcome>> DeleteResource<T>(this IFhirDispatcher dispatcher, string id) where T : IIdentifiable<List<Identifier>>, new()
             => await dispatcher.Perform<T, Outcome>(new DeleteRequest<T>(new Interfaces.Common.Primitives.ResourceId(id)));
 
-        public async static Task<IResponse<BundledRespose>> GetResultsFor<T>(this IFhirDispatcher dispatcher, Expression<Func<Query<T>, bool>> predicate) where T : IIdentifiable<List<Identifier>>, new()
-            => await dispatcher.Perform<T, BundledRespose>(new QueryByPredicate<T>(predicate));
+        public async static Task<IResponse<BundledRespose>> GetResultsFor<T, Q>(this IFhirDispatcher dispatcher, Expression<Func<Q, bool>> predicate) where T : IIdentifiable<List<Identifier>>, new() where Q : IQuery<T>  
+            => await dispatcher.PerformQuery<T, BundledRespose, Q>(new QueryByPredicate<T, Q>(predicate));
     }
 }
